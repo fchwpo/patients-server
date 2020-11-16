@@ -21,3 +21,14 @@ export const isExcelFile = (mimeType) => {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   ].includes(mimeType);
 };
+
+const REQUIRED_FIELDS = ['name', 'age', 'gender'];
+
+export const isValidRowInfo = (rowInfo) => {
+  return (
+    REQUIRED_FIELDS.length ===
+    REQUIRED_FIELDS.filter((cur) => {
+      return Object.keys(rowInfo).includes(cur);
+    }).length
+  );
+};

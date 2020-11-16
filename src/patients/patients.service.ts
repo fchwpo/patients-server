@@ -1,11 +1,34 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import * as xlsx from 'xlsx';
-import { isExcelFile } from './patients.util';
+import { isExcelFile, isValidRowInfo } from './patients.util';
+import { PatientsInfoRepo } from './PatientsInfo.repository';
 
 @Injectable()
 export class PatientsService {
+  constructor(
+    @InjectRepository(PatientsInfoRepo)
+    private readonly patientsInfoRepo: PatientsInfoRepo,
+  ) {}
+
   async test() {
     return 'Hello World';
+  }
+
+  private formatPatientsData(data: any[]) {
+    const patientsData = [];
+    const rowInfo = data.shift().map((cur: string) => cur.toLowerCase());
+    data.forEach((curPatient) => {
+      // if valid then push
+      const formattedCurData = {};
+      rowInfo.forEach((curRow: string, index: number) => {
+        formattedCurData[curRow] = curPatient[index];
+      });
+      if (isValidRowInfo(formattedCurData)) {
+        patientsData.push(formattedCurData);
+      }
+    });
+    return patientsData;
   }
 
   private async extractDataFromExcelFile(filePath) {
@@ -14,9 +37,11 @@ export class PatientsService {
       workbook.Sheets[workbook.SheetNames[0]],
       {
         header: 1,
+        blankrows: false,
+        defval: null,
       },
     );
-    return data;
+    return this.formatPatientsData(data);
   }
 
   private async extractDataFromFile(file) {
@@ -27,6 +52,10 @@ export class PatientsService {
 
   async add(file) {
     const patientsData = await this.extractDataFromFile(file);
-    return patientsData;
+    const data = await this.patientsInfoRepo.addPatientsInfo(patientsData);
+    return {
+      isSuccess: true,
+      data,
+    };
   }
 }

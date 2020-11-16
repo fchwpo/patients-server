@@ -10,7 +10,7 @@ export default {
     username: process.env.MYSQL_DEFAULT_USERNAME,
     password: process.env.MYSQL_DEFAULT_PASSWORD,
     database: process.env.MYSQL_DEFAULT_DATABASE,
-    entities: ['dist/entities/patients/*{.ts,.js}'],
+    entities: ['dist/entities/*{.ts,.js}'],
     synchronize: false,
     logging: isProduction ? ['error', 'warn'] : true,
     maxQueryExecutionTime: 1000,
