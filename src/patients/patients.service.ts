@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as xlsx from 'xlsx';
+import { GetAllPatientsDTO } from './patients.dto';
 import { isExcelFile, isValidRowInfo } from './patients.util';
 import { PatientsInfoRepo } from './PatientsInfo.repository';
 
@@ -50,12 +51,12 @@ export class PatientsService {
     }
   }
 
-  async add(file) {
+  async add(file: any) {
     const patientsData = await this.extractDataFromFile(file);
-    const data = await this.patientsInfoRepo.addPatientsInfo(patientsData);
-    return {
-      isSuccess: true,
-      data,
-    };
+    return this.patientsInfoRepo.addPatientsInfo(patientsData);
+  }
+
+  async getAll(options: GetAllPatientsDTO) {
+    return this.patientsInfoRepo.getAll(options);
   }
 }

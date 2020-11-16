@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Post,
@@ -10,6 +11,7 @@ import { PatientsService } from './patients.service';
 import { diskStorage } from 'multer';
 import * as fs from 'fs-extra';
 import { getFileName, getFilePath, validFileFilter } from './patients.util';
+import { GetAllPatientsDTO } from './patients.dto';
 
 @Controller('patients')
 export class PatientsController {
@@ -37,6 +39,15 @@ export class PatientsController {
   async add(@UploadedFile() file) {
     console.log(file);
     const data = await this.patientsService.add(file);
+    return {
+      isSuccess: true,
+      data,
+    };
+  }
+
+  @Get('/')
+  async getAll(@Body() options: GetAllPatientsDTO) {
+    const data = await this.patientsService.getAll(options);
     return {
       isSuccess: true,
       data,
