@@ -1,0 +1,5 @@
+// create database
+CREATE DATABASE patients;
+
+// create table patients_info table
+CREATE TABLE PATIENTS_INFO (ID int(10) unsigned NOT NULL AUTO_INCREMENT, NAME varchar(255) NOT NULL, AGE tinyint unsigned NOT NULL, GENDER enum('M','F','O') NOT NULL, CONTACT varchar(50) DEFAULT NULL, ADDRESS varchar(255) DEFAULT NULL, CITY varchar(50) DEFAULT NULL, BLOODTYPE tinyint unsigned NOT NULL, PRIMARY KEY (ID)) ENGINE=InnoDB;
