@@ -1,4 +1,4 @@
-import { PatientsInfo } from 'src/entities/PatientsInfo';
+import { PatientsInfo } from '../entities/PatientsInfo';
 import { EntityRepository, FindManyOptions, Repository } from 'typeorm';
 import { GetAllPatientsDTO } from './patients.dto';
 
