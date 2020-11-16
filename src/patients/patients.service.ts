@@ -59,4 +59,8 @@ export class PatientsService {
   async getAll(options: GetAllPatientsDTO) {
     return this.patientsInfoRepo.getAll(options);
   }
+
+  async getById(id: number) {
+    return this.patientsInfoRepo.findOne(id);
+  }
 }

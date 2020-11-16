@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -48,6 +49,15 @@ export class PatientsController {
   @Get('/')
   async getAll(@Body() options: GetAllPatientsDTO) {
     const data = await this.patientsService.getAll(options);
+    return {
+      isSuccess: true,
+      data,
+    };
+  }
+
+  @Get('/:id')
+  async getById(@Param() id: number) {
+    const data = await this.patientsService.getById(id);
     return {
       isSuccess: true,
       data,
