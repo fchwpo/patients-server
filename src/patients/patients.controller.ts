@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -56,7 +57,7 @@ export class PatientsController {
   }
 
   @Get('/:id')
-  async getById(@Param() id: number) {
+  async getById(@Param('id', ParseIntPipe) id: number) {
     const data = await this.patientsService.getById(id);
     return {
       isSuccess: true,
