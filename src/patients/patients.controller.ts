@@ -36,8 +36,10 @@ export class PatientsController {
   )
   async add(@UploadedFile() file) {
     console.log(file);
+    const data = await this.patientsService.add(file);
     return {
       isSuccess: true,
+      data,
     };
   }
 }
