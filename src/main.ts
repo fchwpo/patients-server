@@ -31,6 +31,7 @@ async function bootstrap() {
       },
     }),
   );
+  app.setGlobalPrefix('api');
   await app.listen(port, () => {
     console.log('Patients Server Listening on', port);
   });
