@@ -31,7 +31,7 @@ export class PatientsInfoRepo extends Repository<PatientsInfo> {
       where: {},
     };
     if (searchKey) {
-      findOptions.where['name'] = Like(`${searchKey}%`);
+      findOptions.where['name'] = Like(`%${searchKey}%`);
     }
     Object.keys(sortBy).forEach((curSort) => {
       const sortValue = sortBy[curSort];
