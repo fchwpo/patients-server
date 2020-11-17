@@ -1,4 +1,4 @@
-import { IsNumber, IsObject, IsPositive, Validate } from 'class-validator';
+import { IsNumber, IsObject, IsPositive, IsString } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class GetAllPatientsDTO {
@@ -15,4 +15,7 @@ export class GetAllPatientsDTO {
   @IsNumber()
   @IsPositive()
   pageNo: number;
+
+  @IsString()
+  searchKey: string;
 }

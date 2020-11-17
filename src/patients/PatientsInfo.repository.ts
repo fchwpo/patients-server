@@ -1,5 +1,5 @@
 import { PatientsInfo } from '../entities/PatientsInfo';
-import { EntityRepository, FindManyOptions, Repository } from 'typeorm';
+import { EntityRepository, FindManyOptions, Like, Repository } from 'typeorm';
 import { GetAllPatientsDTO } from './patients.dto';
 
 @EntityRepository(PatientsInfo)
@@ -23,12 +23,16 @@ export class PatientsInfoRepo extends Repository<PatientsInfo> {
   }
 
   async getAll(options: GetAllPatientsDTO) {
-    const { pageNo = 1, pageSize = 20, sortBy = {} } = options;
+    const { pageNo = 1, pageSize = 20, sortBy = {}, searchKey } = options;
     const skip = (pageNo - 1) * pageSize;
     const findOptions: FindManyOptions = {
       skip,
       take: pageSize,
+      where: {},
     };
+    if (searchKey) {
+      findOptions.where['name'] = Like(`${searchKey}%`);
+    }
     Object.keys(sortBy).forEach((curSort) => {
       const sortValue = sortBy[curSort];
       if (['ASC', 'DESC', 1, -1].includes(sortValue)) {
