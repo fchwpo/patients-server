@@ -23,6 +23,6 @@ export class PatientsInfo extends BaseEntity {
   @Column('varchar', { name: 'CITY', nullable: true, length: 50 })
   city: string | null;
 
-  @Column('tinyint', { name: 'BLOODTYPE', unsigned: true })
+  @Column('char', { name: 'BLOODTYPE', nullable: true, length: 4 })
   bloodtype: number;
 }
