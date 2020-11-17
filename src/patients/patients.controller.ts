@@ -5,6 +5,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -48,7 +49,7 @@ export class PatientsController {
   }
 
   @Get('/')
-  async getAll(@Body() options: GetAllPatientsDTO) {
+  async getAll(@Query() options: GetAllPatientsDTO) {
     const data = await this.patientsService.getAll(options);
     return {
       isSuccess: true,
