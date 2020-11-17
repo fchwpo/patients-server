@@ -28,7 +28,7 @@ export const isValidRowInfo = (rowInfo) => {
   return (
     REQUIRED_FIELDS.length ===
     REQUIRED_FIELDS.filter((cur) => {
-      return Object.keys(rowInfo).includes(cur);
+      return rowInfo[cur];
     }).length
   );
 };

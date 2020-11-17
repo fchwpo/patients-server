@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as xlsx from 'xlsx';
+import * as csvtojson from 'csvtojson';
 import { GetAllPatientsDTO } from './patients.dto';
 import { isExcelFile, isValidRowInfo } from './patients.util';
 import { PatientsInfoRepo } from './PatientsInfo.repository';
@@ -16,7 +17,7 @@ export class PatientsService {
     return 'Hello World';
   }
 
-  private formatPatientsData(data: any[]) {
+  private formatPatientsExcelData(data: any[]) {
     const patientsData = [];
     const rowInfo = data.shift().map((cur: string) => cur.toLowerCase());
     data.forEach((curPatient) => {
@@ -42,12 +43,29 @@ export class PatientsService {
         defval: null,
       },
     );
-    return this.formatPatientsData(data);
+    return this.formatPatientsExcelData(data);
+  }
+
+  private async extractDataFromCSVFile(filePath) {
+    const data = await csvtojson().fromFile(filePath);
+    const patientsData = [];
+    data.forEach((cur) => {
+      const patient = {};
+      Object.keys(cur).forEach((key) => {
+        patient[key.toLowerCase()] = cur[key];
+      });
+      if (isValidRowInfo(patient)) {
+        patientsData.push(patient);
+      }
+    });
+    return patientsData;
   }
 
   private async extractDataFromFile(file) {
     if (isExcelFile(file.mimetype)) {
       return this.extractDataFromExcelFile(file.path);
+    } else {
+      return this.extractDataFromCSVFile(file.path);
     }
   }
 
