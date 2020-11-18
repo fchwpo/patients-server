@@ -4,7 +4,7 @@ import { Transform } from 'class-transformer';
 export class GetAllPatientsDTO {
   @Transform(JSON.parse)
   @IsObject()
-  sortBy: object;
+  sortBy: any;
 
   @Transform(Number)
   @IsNumber()

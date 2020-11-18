@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { GetAllPatientsDTO } from './patients.dto';
 
 describe('PatientsService', () => {
   let service: PatientsServiceMock;
@@ -110,7 +109,7 @@ class PatientsServiceMock {
       bloodtype: 'A+',
     },
   ];
-  getAll(options: GetAllPatientsDTO) {
+  getAll() {
     return [this.patientsData, this.patientsData.length];
   }
 
